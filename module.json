@@ -1,0 +1,27 @@
+{
+  "name": "ws2xxx-rgb-led",
+  "version": "0.0.1",
+  "description": "WS2xxx RGB LED driver library",
+  "keywords": [
+    "security"
+  ],
+  "author": {
+    "name": "Milosch Meriac",
+    "email": "milosch.meriac@arm.com"
+  },
+  "repository": {
+    "url": "git@github.com:ARMmbed/ws2xxx-rgb-led.git",
+    "type": "git"
+  },
+  "homepage": "https://github.com/ARMmbed/ws2xxx-rgb-led",
+  "licenses": [
+    {
+      "url": "https://spdx.org/licenses/Apache-2.0",
+      "type": "Apache-2.0"
+    }
+  ],
+  "dependencies": {
+    "mbed-drivers": "^0.11.2"
+  },
+  "targetDependencies": {}
+}
