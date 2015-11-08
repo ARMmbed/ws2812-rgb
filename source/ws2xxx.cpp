@@ -27,6 +27,7 @@
 
 WS2xxx::WS2xxx(PinName pin) :
     SPI(pin, NC, NC),
+    m_alternating(false),
     m_width(1),
     m_height(1)
 {
@@ -35,6 +36,7 @@ WS2xxx::WS2xxx(PinName pin) :
 
 WS2xxx::WS2xxx(PinName pin, int width) :
     SPI(pin, NC, NC),
+    m_alternating(false),
     m_width(width),
     m_height(1)
 {
@@ -43,6 +45,16 @@ WS2xxx::WS2xxx(PinName pin, int width) :
 
 WS2xxx::WS2xxx(PinName pin, int width, int height) :
     SPI(pin, NC, NC),
+    m_alternating(false),
+    m_width(width),
+    m_height(height)
+{
+    init();
+};
+
+WS2xxx::WS2xxx(PinName pin, int width, int height, bool alternating) :
+    SPI(pin, NC, NC),
+    m_alternating(alternating),
     m_width(width),
     m_height(height)
 {
@@ -150,6 +162,7 @@ void WS2xxx::send(void)
 
 void WS2xxx::set(int x, int rgb)
 {
+    int y;
     int rgb_corrected;
 
     /* check range */
@@ -161,7 +174,20 @@ void WS2xxx::set(int x, int rgb)
         ((uint32_t)g_cie_correction[((rgb>> 8) & 0xFF)/RGB_DIMMING]) << 16 |
         ((uint32_t)g_cie_correction[((rgb>> 0) & 0xFF)/RGB_DIMMING]) <<  0;
 
-    m_buffer[x] = rgb_corrected;
+    /* handle RGB arrays with alternating directions on every line */
+    if(!m_alternating)
+        m_buffer[x] = rgb_corrected;
+    else
+    {
+        /* calculate x/y position */
+        y = x / m_width;
+        x = x % m_width;
+
+        if(y&1)
+            x = m_width - 1 - x;
+
+        m_buffer[y*m_width + x] = rgb_corrected;
+    }
 }
 
 void WS2xxx::set(int x, int y, int rgb)

@@ -24,6 +24,7 @@
 
 class WS2xxx : protected mbed::SPI {
     protected:
+        bool m_alternating;
         int m_width, m_height, m_size;
         int *m_buffer;
         dspi_command_config_t m_cmd;
@@ -38,6 +39,7 @@ class WS2xxx : protected mbed::SPI {
         WS2xxx(PinName pin);
         WS2xxx(PinName pin, int width);
         WS2xxx(PinName pin, int width, int height);
+        WS2xxx(PinName pin, int width, int height, bool alternating);
 
         void send(void);
         void clear(void);
