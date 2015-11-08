@@ -1,6 +1,6 @@
 {
   "name": "ws2xxx-rgb-led",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "WS2xxx RGB LED driver library",
   "keywords": [
     "security"
